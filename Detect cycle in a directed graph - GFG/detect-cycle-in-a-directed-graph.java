@@ -32,32 +32,29 @@ class DriverClass {
 /*Complete the function below*/
 
 class Solution {
+    // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> list) {
-        int[] vis = new int[V];
-        
-        for (int i = 0; i < V; i++) {
-            if (vis[i] == 0) {
-                if (rec(i, list, vis)) {
-                    return true;
-                }
+        int[] vis=new int[V];
+        int[] path=new int[V];
+        for(int i=0;i<V;i++){
+            if(vis[i]==0){
+                if(rec(i,list,vis,path)==true) return true;
             }
         }
         return false;
+        // code here
     }
-    
-    public static boolean rec(int i, ArrayList<ArrayList<Integer>> list, int[] vis) {
-        vis[i] = 1;
-        
-        for (int neighbor : list.get(i)) {
-            if (vis[neighbor] == 1) {
-                return true; // Cycle detected
-            }
-            if (vis[neighbor] == 0 && rec(neighbor, list, vis)) {
-                return true; // Cycle detected in neighbor's subtree
-            }
+    public static boolean rec(int i,ArrayList<ArrayList<Integer>> list,int[] vis,int[] path){
+        vis[i]=1;
+        path[i]=1;
+        for(int index=0;index<list.get(i).size();index++){
+            if(path[list.get(i).get(index)]==1) return true;
+               if(vis[list.get(i).get(index)]==0) 
+            if(rec(list.get(i).get(index),list,vis,path)==true) return true;
+         
+            
         }
-        
-        vis[i] = 2; // Mark as visited
+        path[i]=0;
         return false;
     }
 }
