@@ -62,8 +62,44 @@ class Solution
 {
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int n, ArrayList<ArrayList<Integer>> nums) 
+    
     {
-        int[] vis=new int[n];
+        int[] indeg=new int[n];
+        for(int i=0;i<nums.size();i++){
+            for(int j=0;j<nums.get(i).size();j++){
+                indeg[nums.get(i).get(j)]+=1;
+            }
+        }
+        int[] ans=new int[n];
+        
+        bfs(nums,indeg,ans);
+        return ans;
+
+    }
+    public static void bfs(ArrayList<ArrayList<Integer>> nums,int[] indeg,int[] ans){
+            Queue<Integer> q=new LinkedList<>();
+            for(int i=0;i<indeg.length;i++){
+                if(indeg[i]==0){
+                    q.add(i);
+                }
+            }
+            int index=0;
+            while(!q.isEmpty()){
+                int ss=q.poll();
+                ans[index++]=ss;
+                for(int i=0;i<nums.get(ss).size();i++){
+                    indeg[nums.get(ss).get(i)]-=1;
+                    if(indeg[nums.get(ss).get(i)]==0){
+                        q.add(nums.get(ss).get(i));
+                    }
+                }
+            }
+    }
+}
+
+
+
+/*        int[] vis=new int[n];
         Stack<Integer> stack=new Stack<>();
         for(int i=0;i<n;i++){
             if(vis[i]==0){
@@ -86,7 +122,4 @@ class Solution
             }
            
         }
-         stack.push(i);
-    }
-}
-
+         stack.push(i);*/
